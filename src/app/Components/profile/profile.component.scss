@@ -1,0 +1,25 @@
+@import "/src/theme.scss";
+
+.container {   
+    padding: 10px;
+    //height: calc(100% - 165px);
+}
+h1 {
+    color: mat-color($my-theme-secondary);
+}
+.mat-column-edit
+,.mat-column-delete
+,.mat-column-publish
+,.mat-column-continue
+,.mat-column-borrar {
+    flex: 0 0 100px;
+  }
+mat-form-field{
+    margin-top:10px;
+    width: 400px;
+}
+button{
+    margin-top:10px;
+    margin-bottom:20px;
+    margin-right:10px;
+}

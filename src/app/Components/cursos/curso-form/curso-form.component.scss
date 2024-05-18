@@ -1,0 +1,34 @@
+@import "/src/theme.scss";
+
+.container {   
+    padding: 10px;
+}
+h1 {
+    color: mat-color($my-theme-secondary);
+}
+.input {
+    display: flex;
+    flex-direction: column;
+  }
+.mat-column-edit
+,.mat-column-delete {
+    flex: 0 0 100px;
+}
+mat-form-field{
+    margin-top:10px;
+    width: 400px;
+}
+button{
+    margin-top:10px;
+    margin-right:10px;
+}
+.mat-expansion-panel{
+    margin-bottom: 5px;
+  }
+.mat-expansion-panel-header{
+    background: mat-color($my-theme-primary)  !important;
+  }
+img{
+    margin-top:10px;
+    max-height: 200px;
+}

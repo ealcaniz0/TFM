@@ -1,0 +1,13 @@
+
+<mat-toolbar color="primary">
+    <mat-toolbar-row>
+        <img src="assets/img/logo.png" alt="logo" height="50px">  
+        <span class="example-spacer"></span>
+        <button mat-raised-button (click)="navigationTo('home')">Home</button>
+        <button *ngIf="authSection" mat-raised-button (click)="navigationTo('profile')">Perfil</button>
+        <button *ngIf="noAuthSection" mat-raised-button (click)="navigationTo('register')">Registro</button>
+        <button *ngIf="noAuthSection" mat-raised-button (click)="navigationTo('login')">Login</button>
+        <button mat-raised-button (click)="navigationTo('cursos')">Cursos</button>
+        <button *ngIf="authSection" mat-raised-button (click)="logout()">Logout</button>
+    </mat-toolbar-row>
+</mat-toolbar>

@@ -1,0 +1,35 @@
+<div class="container">
+    <button mat-flat-button color="primary" (click)="goBack()"><mat-icon>arrow_back</mat-icon></button>
+    <h1>Edición subtema</h1>
+    <form [formGroup]="subtemaForm" (ngSubmit)="save()">
+        <div class="input">
+            <mat-label>Título</mat-label>         
+            <mat-form-field appearance="outline">       
+                <input matInput [formControl]="title">
+            </mat-form-field>    
+        </div>  
+        <div class="input">
+            <mat-label>Posición</mat-label>        
+            <mat-form-field appearance="outline">
+                <mat-select [formControl]="position">
+                        <mat-option *ngFor="let posicion of posiciones" [value]="posicion">{{posicion}}</mat-option>
+                </mat-select>
+            </mat-form-field>  
+        </div>
+        <div class="input">
+            <mat-label>Imagen</mat-label>         
+            <mat-form-field appearance="outline">       
+                <input matInput [formControl]="img" placeholder="URL">
+            </mat-form-field>    
+        </div> 
+        <div class="input">
+            <mat-label>Texto</mat-label>         
+            <mat-form-field appearance="outline">       
+                <textarea matInput [formControl]="text" cdkTextareaAutosize #autosize="cdkTextareaAutosize"></textarea>
+            </mat-form-field>    
+        </div>  
+        <div>
+            <button mat-flat-button color="primary" type="submit" [disabled]="!subtemaForm.valid">Guardar cambios</button>
+        </div>   
+    </form>       
+</div>

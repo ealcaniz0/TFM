@@ -1,0 +1,90 @@
+<div class="container">
+    <button mat-flat-button color="primary" (click)="goBack()"><mat-icon>arrow_back</mat-icon></button>
+    <h1>Edición curso</h1>
+    <mat-tab-group>
+        <mat-tab label="Información">
+            <form [formGroup]="courseForm" (ngSubmit)="save()">
+                <div class="input">
+                    <mat-label>Título</mat-label>         
+                    <mat-form-field appearance="outline">       
+                        <input matInput [formControl]="title">
+                    </mat-form-field>    
+                </div>  
+                <div class="input">
+                    <mat-label>Categoría</mat-label>        
+                    <mat-form-field appearance="outline">
+                        <mat-select [formControl]="category">
+                                <mat-option *ngFor=" let category of categories" [value]="category.title">{{category.title}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>  
+                </div>
+                <div class="input">
+                    <mat-label>Descripción</mat-label>         
+                    <mat-form-field appearance="outline">       
+                        <textarea matInput [formControl]="description" cdkTextareaAutosize #autosize="cdkTextareaAutosize"></textarea>
+                    </mat-form-field>    
+                </div>   
+                <div>
+                    <button mat-flat-button color="primary" type="submit" [disabled]="!courseForm.valid">Guardar cambios</button>
+                </div>   
+            </form>
+        </mat-tab>
+        <mat-tab label="Temas">
+            <button *ngIf="id" mat-flat-button color="primary" (click)="navigationTo('tema')">Añadir nuevo</button>
+            <mat-table [dataSource]="course.temas">
+                <ng-container matColumnDef="id">
+                    <mat-header-cell *matHeaderCellDef>ID</mat-header-cell>
+                    <mat-cell *matCellDef="let tema">{{ tema.id }}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="titulo">
+                    <mat-header-cell *matHeaderCellDef>Título</mat-header-cell>
+                    <mat-cell *matCellDef="let tema">{{ tema.title }}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="edit">
+                    <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                    <mat-cell *matCellDef="let tema"><button mat-flat-button color="primary" (click)="editTema(tema.id)">Editar</button></mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="delete">
+                    <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                    <mat-cell *matCellDef="let tema"><button mat-flat-button color="warn" (click)="deleteTema(tema.id)">Eliminar</button></mat-cell>
+                </ng-container>
+                <mat-header-row *matHeaderRowDef="['id','titulo','edit','delete']"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: ['id','titulo','edit','delete'];"></mat-row>
+            </mat-table>   
+        </mat-tab>
+        <mat-tab label="Previsualización">
+            <h2>{{course.title}}</h2>
+            <p>
+                {{course.descripcion}}
+            </p>
+            <mat-accordion multi>
+                <mat-expansion-panel *ngFor="let tema of course.temas; let i = index">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            Tema {{i+1}}
+                        </mat-panel-title>
+                        <mat-panel-description>
+                            {{tema.title}}
+                        </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <img *ngIf="tema.img" src="{{tema.img}}"/>
+                    <p>{{tema.texto}}</p>
+                    <mat-accordion multi>
+                        <mat-expansion-panel *ngFor="let subtema of tema.subtemas; let j = index">
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    Subtema {{i+1}}.{{j+1}}
+                                </mat-panel-title>
+                                <mat-panel-description>
+                                    {{subtema.title}}
+                                </mat-panel-description>
+                            </mat-expansion-panel-header>
+                            <img *ngIf="subtema.img" src="{{subtema.img}}"/>
+                            <p>{{subtema.texto}}</p>
+                        </mat-expansion-panel>
+                    </mat-accordion>
+                </mat-expansion-panel>
+            </mat-accordion>
+        </mat-tab>
+    </mat-tab-group>        
+</div>

@@ -1,0 +1,71 @@
+<div class="container">
+    <h1>Registro</h1>
+    <mat-stepper #stepper>
+        <mat-step [stepControl]="firstLoginForm" >
+            <form [formGroup]="firstLoginForm">
+                <ng-template matStepLabel>Perfil</ng-template>
+                <mat-radio-group required [formControl]="type"  aria-label="Select an option">
+                    <mat-radio-button value="Administrador">Administrador</mat-radio-button>
+                    <mat-radio-button value="Alumno">Alumno</mat-radio-button>
+                  </mat-radio-group>       
+                <div>
+                    <button mat-flat-button color="primary" matStepperNext [disabled]="!firstLoginForm.valid">Siguiente</button>
+                </div>           
+            </form>            
+        </mat-step>
+        <mat-step>
+            <form [formGroup]="secondLoginForm" (ngSubmit)="register()">
+                <ng-template matStepLabel>Información de usuario</ng-template>
+                <div>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Nombre</mat-label>
+                        <input matInput [formControl]="name" placeholder="Name">
+                    </mat-form-field>    
+                </div>  
+                <div>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Apellido</mat-label>
+                        <input matInput [formControl]="surname" placeholder="Surname">
+                    </mat-form-field>    
+                </div> 
+                <div>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Fecha de nacimiento</mat-label>
+                        <input matInput type="date" [formControl]="birth_date" />
+                    </mat-form-field>    
+                </div> 
+                <div>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Email</mat-label>
+                        <input matInput [formControl]="email" placeholder="Email">
+                        <mat-error *ngIf="email.errors?.['pattern']">
+                            Formato inválido
+                        </mat-error>
+                    </mat-form-field>    
+                </div>    
+                <div>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Contraseña</mat-label>
+                        <input matInput type="password" [formControl]="password" placeholder="Contraseña">
+                        <mat-error *ngIf="(password.touched || password.dirty) && (password.errors?.['minlength'] || password.errors?.['maxlength'])">
+                            La contraseña debe tener de 8 a 16 carácteres
+                        </mat-error>
+                    </mat-form-field>  
+                </div>   
+                <div>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Confirmar contraseña</mat-label>
+                        <input matInput type="password" [formControl]="passwordConf" placeholder="Contraseña">
+                        <mat-error *ngIf="secondLoginForm.errors?.['PasswordNoMatch'] && (password.touched || password.dirty) && (passwordConf.touched || passwordConf.dirty)">
+                            La contraseña no coincide
+                        </mat-error>
+                    </mat-form-field>                     
+                </div> 
+                <div>
+                    <button mat-flat-button color="primary" matStepperPrevious>Atrás</button>
+                    <button mat-flat-button color="primary" type="submit" [disabled]="!secondLoginForm.valid">Registrar</button>
+                </div>          
+            </form>            
+        </mat-step>
+    </mat-stepper>  
+</div>

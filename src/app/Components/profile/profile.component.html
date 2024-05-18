@@ -1,0 +1,125 @@
+<div class="container">
+    <mat-tab-group>
+        <mat-tab label="Usuario"> 
+            <form [formGroup]="profileForm" (ngSubmit)="update()">
+                <div>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Perfil</mat-label>
+                        <input matInput [formControl]="profile">
+                    </mat-form-field>    
+                </div>   
+                <div>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Nombre</mat-label>
+                        <input matInput [formControl]="name" placeholder="Name">
+                    </mat-form-field>    
+                </div>  
+                <div>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Apellido</mat-label>
+                        <input matInput [formControl]="surname" placeholder="Surname">
+                    </mat-form-field>    
+                </div> 
+                <div>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Fecha de nacimiento</mat-label>
+                        <input matInput type="date" [formControl]="birth_date" />
+                    </mat-form-field>    
+                </div> 
+                <div>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Email</mat-label>
+                        <input matInput [formControl]="email" placeholder="Email">
+                    </mat-form-field>    
+                </div>       
+                <div>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Contraseña</mat-label>
+                        <input matInput type="password" [formControl]="password" placeholder="Contraseña">
+                        <mat-error *ngIf="(password.touched || password.dirty) && (password.errors?.['minlength'] || password.errors?.['maxlength'])">
+                            La contraseña debe tener de 8 a 16 carácteres
+                        </mat-error>
+                    </mat-form-field>  
+                </div>   
+                <div>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Confirmar contraseña</mat-label>
+                        <input matInput type="password" [formControl]="passwordConf" placeholder="Contraseña">
+                        <mat-error *ngIf="profileForm.errors?.['PasswordNoMatch'] && (password.touched || password.dirty) && (passwordConf.touched || passwordConf.dirty)">
+                            La contraseña no coincide
+                        </mat-error>
+                    </mat-form-field>                     
+                </div>
+                <div>
+                    <button mat-flat-button color="primary" type="submit" [disabled]="!profileForm.valid">Guardar cambios</button>
+                </div>             
+            </form>
+        </mat-tab>
+        <mat-tab label="Cursos"> 
+            <button mat-flat-button *ngIf="user.profile=='Administrador'" color="primary" (click)="navigationTo('curso')">Añadir nuevo</button>
+            <mat-table *ngIf="user.profile=='Administrador'" [dataSource]="dataSource" matSort (matSortChange)="sortData($event)">
+                <ng-container matColumnDef="id">
+                    <mat-header-cell mat-sort-header *matHeaderCellDef>ID</mat-header-cell>
+                    <mat-cell *matCellDef="let curso">{{ curso.id }}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="titulo">
+                    <mat-header-cell mat-sort-header *matHeaderCellDef>Título</mat-header-cell>
+                    <mat-cell *matCellDef="let curso">{{ curso.title }}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="categoria">
+                    <mat-header-cell mat-sort-header  *matHeaderCellDef>Categoría</mat-header-cell>
+                    <mat-cell *matCellDef="let curso">{{ curso.categoria }}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="fecha_publicacion">
+                    <mat-header-cell mat-sort-header *matHeaderCellDef>Fecha publicación</mat-header-cell>
+                    <mat-cell *matCellDef="let curso">{{ curso.publicado ? (curso.publication_date | date: 'dd/MM/yyyy') : '' }}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="edit">
+                    <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                    <mat-cell *matCellDef="let curso"><button *ngIf="!curso.publicado" mat-flat-button color="primary" (click)="editCourse(curso.id)">Editar</button></mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="delete">
+                    <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                    <mat-cell *matCellDef="let curso"><button mat-flat-button color="warn" (click)="deleteCourse(curso.id)">Eliminar</button></mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="publish">
+                    <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                    <mat-cell *matCellDef="let curso">
+                        <button *ngIf="!curso.publicado" mat-flat-button color="accent" (click)="publishCourse(curso.id)">Publicar</button>
+                        <button *ngIf="curso.publicado" mat-flat-button color="accent" (click)="hideCourse(curso.id)">Ocultar</button>
+                    </mat-cell>
+                </ng-container>
+                <mat-header-row *matHeaderRowDef="['id','titulo','categoria','fecha_publicacion','edit','delete','publish']"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: ['id','titulo','categoria','fecha_publicacion','edit','delete','publish'];"></mat-row>
+            </mat-table>     
+            <mat-table *ngIf="user.profile=='Alumno'" [dataSource]="dataSource" matSort (matSortChange)="sortData($event)">
+                <ng-container matColumnDef="titulo">
+                    <mat-header-cell mat-sort-header  *matHeaderCellDef>Título</mat-header-cell>
+                    <mat-cell *matCellDef="let curso">{{ curso.title }}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="descripcion">
+                    <mat-header-cell mat-sort-header  *matHeaderCellDef>Descripción</mat-header-cell>
+                    <mat-cell *matCellDef="let curso">{{ curso.descripcion }}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="fecha">
+                    <mat-header-cell mat-sort-header *matHeaderCellDef>Fecha suscripción</mat-header-cell>
+                    <mat-cell *matCellDef="let curso">{{(curso.publication_date | date: 'dd/MM/yyyy')}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="estado">
+                    <mat-header-cell mat-sort-header  *matHeaderCellDef>Estado</mat-header-cell>
+                    <mat-cell *matCellDef="let curso">{{ curso.completado ? 'Terminado' : 'En curso' }}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="continue">
+                    <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                    <mat-cell *matCellDef="let curso"><button mat-flat-button color="primary" (click)="viewCourse(curso.id)">Continuar</button></mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="borrar">
+                    <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                    <mat-cell *matCellDef="let curso"><button mat-flat-button color="warn" (click)="unsuscribeCourse(curso.id)">Eliminar</button></mat-cell>
+                </ng-container>
+                <mat-header-row *matHeaderRowDef="['titulo','descripcion','fecha','estado','continue','borrar']"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: ['titulo','descripcion','fecha','estado','continue','borrar'];"></mat-row>
+            </mat-table>      
+        </mat-tab>
+      </mat-tab-group>         
+</div>

@@ -1,0 +1,62 @@
+<div class="container">
+    <button mat-flat-button color="primary" (click)="goBack()"><mat-icon>arrow_back</mat-icon></button>
+    <h1>Edición tema</h1>
+    <mat-tab-group>
+        <mat-tab label="Información">
+            <form [formGroup]="temaForm" (ngSubmit)="save()">
+                <div class="input">
+                    <mat-label>Título</mat-label>         
+                    <mat-form-field appearance="outline">       
+                        <input matInput [formControl]="title">
+                    </mat-form-field>    
+                </div> 
+                <div class="input">
+                    <mat-label>Posición</mat-label>        
+                    <mat-form-field appearance="outline">
+                        <mat-select [formControl]="position">
+                                <mat-option *ngFor="let posicion of posiciones" [value]="posicion">{{posicion}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>  
+                </div>
+                <div class="input">
+                    <mat-label>Imagen</mat-label>         
+                    <mat-form-field appearance="outline">       
+                        <input matInput [formControl]="img" placeholder="URL">
+                    </mat-form-field>    
+                </div> 
+                <div class="input">
+                    <mat-label>Texto</mat-label>         
+                    <mat-form-field appearance="outline">       
+                        <textarea matInput [formControl]="text" cdkTextareaAutosize #autosize="cdkTextareaAutosize"></textarea>
+                    </mat-form-field>    
+                </div>  
+                <div>
+                    <button mat-flat-button color="primary" type="submit" [disabled]="!temaForm.valid">Guardar cambios</button>
+                </div>   
+            </form>
+        </mat-tab>
+        <mat-tab label="Subtemas">
+            <button *ngIf="id" mat-flat-button color="primary" (click)="navigationTo('subtema')">Añadir nuevo</button>
+            <mat-table [dataSource]="tema.subtemas">
+                <ng-container matColumnDef="id">
+                    <mat-header-cell *matHeaderCellDef>ID</mat-header-cell>
+                    <mat-cell *matCellDef="let subtemas">{{ subtemas.id }}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="titulo">
+                    <mat-header-cell *matHeaderCellDef>Título</mat-header-cell>
+                    <mat-cell *matCellDef="let subtemas">{{ subtemas.title }}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="edit">
+                    <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                    <mat-cell *matCellDef="let subtemas"><button mat-flat-button color="primary" (click)="editSubtema(subtemas.id)">Editar</button></mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="delete">
+                    <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                    <mat-cell *matCellDef="let subtemas"><button mat-flat-button color="warn" (click)="deleteSubtema(subtemas.id)">Eliminar</button></mat-cell>
+                </ng-container>
+                <mat-header-row *matHeaderRowDef="['id','titulo','edit','delete']"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: ['id','titulo','edit','delete'];"></mat-row>
+            </mat-table> 
+        </mat-tab>
+    </mat-tab-group>             
+</div>

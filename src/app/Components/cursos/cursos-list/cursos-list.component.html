@@ -1,0 +1,30 @@
+<div class="container">
+    <h1>Cursos</h1>
+    <mat-table [dataSource]="dataSource"  matSort (matSortChange)="sortData($event)">
+        <ng-container matColumnDef="titulo">
+            <mat-header-cell mat-sort-header *matHeaderCellDef>Título</mat-header-cell>
+            <mat-cell *matCellDef="let curso">{{ curso.title }}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="categoria">
+            <mat-header-cell mat-sort-header *matHeaderCellDef>Categoría</mat-header-cell>
+            <mat-cell *matCellDef="let curso">{{ curso.categoria }}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="autor">
+            <mat-header-cell mat-sort-header *matHeaderCellDef>Autor</mat-header-cell>
+            <mat-cell *matCellDef="let curso">{{ curso.author }}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="descripcion">
+            <mat-header-cell mat-sort-header *matHeaderCellDef>Descripción</mat-header-cell>
+            <mat-cell *matCellDef="let curso">{{ curso.descripcion }}</mat-cell>
+        </ng-container>
+        <ng-container  matColumnDef="suscribe">
+            <mat-header-cell *matHeaderCellDef></mat-header-cell>
+            <mat-cell *matCellDef="let curso">
+                <button *ngIf="user.profile=='Alumno'" mat-flat-button color="warn" (click)="suscribe(curso)">Suscribir</button>
+            </mat-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="['titulo','categoria','autor','descripcion','suscribe']"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: ['titulo','categoria','autor','descripcion','suscribe'];"></mat-row>
+    </mat-table>
+</div>
+

@@ -1,0 +1,30 @@
+
+<h2>{{course.title}}</h2>
+<mat-sidenav-container class="sidenav-container">
+    <mat-sidenav #sidenav mode="side" opened>
+        <ng-container *ngFor="let tema of course.temas">
+            <mat-list-item role="listitem" class="titulo" tabindex="0" (click)="selectTema(tema)" style="cursor: pointer">
+              <div style="display: flex; align-items: center;">
+                <mat-slide-toggle color="primary" [checked]="tema.completado" (change)="toggleChanged($event,tema.id,'')"></mat-slide-toggle>   
+                <h3 matLine>{{ tema.title }}</h3>   
+              </div>           
+            </mat-list-item>        
+            <mat-list *ngIf="tema.subtemas" role="list">
+              <mat-list-item *ngFor="let subtema of tema.subtemas" role="listitem" class="subtitulo" tabindex="0" (click)="selectSubtema(tema,subtema)" style="cursor: pointer">
+                  <div style="display: flex; align-items: center;">
+                    <mat-slide-toggle color="primary" [checked]="subtema.completado" (change)="toggleChanged($event,tema.id,subtema.id)"></mat-slide-toggle>    
+                    <h4 matLine>{{ subtema.title }}</h4>
+                  </div>
+                </mat-list-item>
+            </mat-list>
+          </ng-container>
+    </mat-sidenav>
+
+      <mat-sidenav-content>
+        <div class="content">
+          <h1>{{ titulo }}</h1>
+          <img *ngIf="img" src="{{img}}"/>
+          <p>{{texto}}</p>          
+        </div>
+      </mat-sidenav-content>
+</mat-sidenav-container>

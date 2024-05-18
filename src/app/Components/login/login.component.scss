@@ -1,0 +1,20 @@
+@import "/src/theme.scss";
+
+.container {   
+    padding: 10px;
+    height: calc(100% - 165px);
+}
+h1 {
+    color: mat-color($my-theme-secondary);
+}
+form {
+    text-align: center;
+}
+mat-form-field{
+    margin-top:10px;
+    width: 400px;
+}
+button{
+    margin-bottom:10px;
+    margin-right:10px;
+}

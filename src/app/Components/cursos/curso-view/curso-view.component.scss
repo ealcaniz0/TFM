@@ -1,0 +1,46 @@
+@import "/src/theme.scss";
+
+
+.sidenav-container {
+    display: flex;
+    flex-direction: column;
+    height: calc(100% - 250px);
+  }
+
+  .mat-sidenav-content {
+    flex-grow: 1; /* El contenido se expande para llenar el espacio restante */
+  }
+
+  .sidenav {
+    width: 200px; /* Ancho del menú lateral */
+  }
+  
+  .content {
+    padding: 20px; /* Espaciado para el contenido */
+  }
+
+  .titulo{
+    background-color: mat-color($my-theme-accent) ;
+  }
+
+  .titulo:hover
+  ,.subtitulo:hover{
+    background-color: mat-color($my-theme-primary) ;
+  }
+
+  .titulo:focus
+  ,.subtitulo:focus{
+    background-color: mat-color($my-theme-warn) ;
+  }
+
+  mat-slide-toggle{
+    margin-right: 40px;
+  }
+  img{
+    margin-top:10px;
+    max-height: 400px;
+}
+
+ 
+ 
+ 
