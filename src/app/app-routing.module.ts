@@ -12,6 +12,7 @@ import { SubtemaFormComponent } from './Components/subtema-form/subtema-form.com
 import { CursoViewComponent } from './Components/cursos/curso-view/curso-view.component';
 
 const routes: Routes = [
+  {path: '**', redirectTo: '', pathMatch: 'full'},
   {
     path: 'register',
     component: RegisterComponent
