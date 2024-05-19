@@ -18,11 +18,12 @@ export class CourseService {
   }
 
   getCourses(user: string): Observable<Curso[]>{
-    let courses = this.courses.map(course =>
+   /* let courses = this.courses.map(course =>
       course.author === user
       ? new Curso(course.id,course.title,course.publication_date,course.author,course.descripcion,course.categoria,course.temas,course.publicado,course.completado)
       : course
-    );
+    );*/
+    let courses = this.courses.filter(curso =>curso.author == user);
     return ObservableOf(courses);
   }
 
