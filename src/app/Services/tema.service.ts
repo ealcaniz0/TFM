@@ -29,6 +29,7 @@ import { v4 as uuidv4 } from 'uuid';
         return ObservableOf(foundTema);
     }
     create(tema: Tema, cursoid: string): Observable<string>{
+      this.courses = JSON.parse(this.localStorageService.get("cursos") || "[]")
       if (this.courses.find(course =>course.id==cursoid)?.temas == undefined){
         return ObservableOf('');
       }else{
@@ -40,6 +41,7 @@ import { v4 as uuidv4 } from 'uuid';
       }
     }
     update(tema: Tema, cursoid: string, position: number): Observable<boolean>{
+      this.courses = JSON.parse(this.localStorageService.get("cursos") || "[]")
       this.courses.map(course =>{
         if (course.id == cursoid) {
           course.temas.map(item =>{

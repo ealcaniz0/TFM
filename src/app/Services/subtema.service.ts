@@ -17,10 +17,12 @@ export class SubtemaService {
     this.courses = JSON.parse(localStorageService.get("cursos") || "[]");
   }
   getSubtema(id: string, temaid: string, cursoid: string): Observable<Subtema>{
+    this.courses = JSON.parse(this.localStorageService.get("cursos") || "[]");
     let foundSubtema= (((this.courses.find(each => each.id == cursoid ) || new Curso('','',new Date(),'','','',[],false,false)).temas.find(each => each.id == temaid) || new Tema('','','',[],false,'')).subtemas.find(each => each.id ==id) || new Subtema('','','',false,''));
     return ObservableOf(foundSubtema);
   }
   create(subtema: Subtema, temaid: string, cursoid: string): Observable<string>{
+    this.courses = JSON.parse(this.localStorageService.get("cursos") || "[]");
     if (this.courses.find(course =>course.id==cursoid)?.temas == undefined){
       return ObservableOf('');
     }else{
@@ -36,6 +38,7 @@ export class SubtemaService {
     }
   }
   update(subtema: Subtema, temaid: string, cursoid: string, position: number): Observable<boolean>{
+    this.courses = JSON.parse(this.localStorageService.get("cursos") || "[]");
     this.courses.map(course =>{
       if (course.id == cursoid) {
         course.temas.map(item =>{

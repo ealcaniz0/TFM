@@ -27,6 +27,7 @@ export class CourseService {
   }
 
   create(curso: Curso): Observable<string>{
+    this.courses = JSON.parse(this.localStorageService.get("cursos") || "[]")
     curso.id=uuidv4();
     curso.author=JSON.parse(this.localStorageService.get('user') || '');
     curso.publicado=false;
@@ -36,6 +37,7 @@ export class CourseService {
     return ObservableOf(curso.id);
   }
   update(curso: Curso): Observable<boolean>{
+    this.courses = JSON.parse(this.localStorageService.get("cursos") || "[]")
     this.courses.map(course =>{
       if (course.id == curso.id) {
         course=curso
