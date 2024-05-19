@@ -142,27 +142,29 @@ export class ProfileComponent implements OnInit {
   deleteCourse(id: string): void {
     this.courseService.deleteCurso(id).subscribe((value: boolean) => {
       if (value) {
-        this.courseService.getCourses(this.user.email).subscribe(courses => {
+        this.courseService.getCourses(JSON.parse(this.localStorageService.get('user') || '')).subscribe(courses => {
           this.courses=courses;
         });
         this.dataSource.data = this.courses; 
+        this.dataSource.sort = this.sort;
       }
     });
   }
   publishCourse(id: string): void {
     this.courseService.publish(id).subscribe((value: boolean) => {
       if (value) {
-        this.courseService.getCourses(this.user.email).subscribe(courses => {
+        this.courseService.getCourses(JSON.parse(this.localStorageService.get('user') || '')).subscribe(courses => {
           this.courses=courses;
         });
         this.dataSource.data = this.courses; 
+        this.dataSource.sort = this.sort;
       }
     });
   }
   hideCourse(id: string): void {
     this.courseService.hide(id).subscribe((value: boolean) => {
       if (value) {
-        this.courseService.getCourses(this.user.email).subscribe(courses => {
+        this.courseService.getCourses(JSON.parse(this.localStorageService.get('user') || '')).subscribe(courses => {
           this.courses=courses;
         });
         this.dataSource.data = this.courses; 
